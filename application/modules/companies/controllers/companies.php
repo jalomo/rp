@@ -601,7 +601,8 @@ public function get_estados_cliente($idpais){
 	}
 	
 	/*
-	* metodo para guardar 
+	* metodo para guardar un usuario.
+    * autor: jalom <jalomo@hotmail.es>
 	*/
 		
 	/**
