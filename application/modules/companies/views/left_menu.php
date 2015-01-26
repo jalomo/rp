@@ -82,7 +82,7 @@
         
       
         
-        <div id="agenda">
+        <!--div id="agenda">
             <div class="barra_lateral">
                 <span class="padding_left_one">
                     <?php echo anchor('#',
@@ -98,17 +98,9 @@
                                           array('id'=>'', 'class'=>'no_text_decoration font_color_menu')); ?>
                     </span>
                 </div>
-                <!--div class="separador_menu">&nbsp;</div>
-                <div class="margin_bottom_one margin_top_minus_one">
-                    <span class="padding_left_two">
-                        <?php echo anchor('companies/lista_consejos',
-                                          'SEE TUTORIALS',
-                                          array('id'=>'', 'class'=>'no_text_decoration font_color_menu')); ?>
-                    </span>
-                </div-->
                
             </div>
-        </div>
+        </div-->
 		
 		 <div id="albums">
             <div class="barra_lateral">

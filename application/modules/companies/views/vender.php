@@ -79,17 +79,17 @@
              <br/>
              <hr/>
              <?php if(isset($eventoi)):?>
-             <?php echo form_open_multipart('companies/vender_guardar/', array('id'=>'','role'=>'')); ?>
+             <?php echo form_open_multipart('companies/vender_guardar/', array('id'=>'guarda_e','role'=>'')); ?>
              	<div style="color:#00F">
-                	<h2><small>Evento:<?php echo $eventoi->eventoNombre;?></small></h2>  
+                	<h2><small>Evento:<label style="color:#090;"><?php echo $eventoi->eventoNombre;?></label></small></h2>  
                 </div>    
                 <h2><small>Ciudad:
                 	<?php $aux=explode('--',$eventoi->eventoCiudad);?>
                     <?php $auxCount=count($aux);?>
-					<select id="change_opciones">
+					<select id="change_opciones" name="id_ciudad">
                     	<option value="0">Seleccione una ciudad</option>
                     	<?php for($i=0;$i<$auxCount-1;$i++):?>
-                        	<option><?php echo $aux[$i];?></option>
+                        	<option value="<?php echo $aux[$i]?>"><?php echo $this->Company->get_name_ciudad( $aux[$i]);?></option>
                         <?php endfor;?>    
                     </select>
                 </small></h2> 
@@ -97,10 +97,10 @@
                 <hr/>
                <h2><small>Precio:</small></h2>  
                <div id="cambia_precio">$</div>
-                <input  id="precio_e" type="hidden" />
+                <input  id="precio_e" type="hidden"  name="precio_e"/>
                <hr/>
                
-               <br/>
+               
                
                <h2><small>Modificadores:</small></h2>  
                <div id="carga_modificadores"></div>
@@ -110,7 +110,9 @@
                
                <br/>
                <div>
-           		<button type="submit" class="btn btn-primary">VENDER</button>
+               <input type="hidden"  value="<?php echo $eventoi->eventoId;?>" name="id_evento"/>
+               <input type="hidden" value="<?php echo $id_usuario?>" name="id_usuario"/>
+           		<button type="submit" class="btn btn-primary">APARTAR</button>
            		</div>
              <?php echo form_close(); ?>   
              <?php endif;?>   
@@ -145,11 +147,12 @@
 <script language="javascript">
 
 $(document).ready(function(){
-
+	$("#options_producto").show();
     //Load the library and the functionality of news
     $("#change_opciones").change(function (event){
 		event.preventDefault();
 		id=$(this).val();
+		
 		valores="";
 		url = $("#get_precio_evento").attr('href');
 		text_response = $.ajax({
@@ -182,6 +185,31 @@ $(document).ready(function(){
 		
 	});
 	
+	$("#guarda_").submit(function(){
+        var band = 0;
+
+        if($("#change_opciones").val() == 0){
+            $("#change_opciones").css('border', '1px solid #FF0000');
+            band++;
+        }
+        else{
+            $("#change_opciones").css('border', '1px solid #ADA9A5');
+        }
+
+        if(band != 0)
+        {
+            $("#errorMessage").text("Por favor, verifique los campos marcados.").show();
+            return false;
+        }
+        else{
+            $("#errorMessage").hide();
+            var opt = {
+                success : exito
+            }
+            $(this).ajaxSubmit(opt);
+            return false;
+        }
+    });
 	
 	
 	
@@ -189,7 +217,7 @@ $(document).ready(function(){
 	
 });
 
-function newEncuesta(){
+function exito(){
 
     $("#successMessage").fadeIn(1500);
     $("#successMessage").fadeOut(3500);

@@ -116,7 +116,7 @@ $(document).ready(function(){
                                                  'delete',
                                                   array('id'=>'delete'.$categoria->categoriaId, 'class'=>'eliminar no_text_decoration btn btn-danger', 'flag'=>$categoria->categoriaId));*/ ?>
 
-                          <?php echo anchor('companies/ver_usuario/'.$usuario->euId,
+                          <?php echo anchor('companies/ver_usuario/'.$usuario->euIdUsuario,
                                                  'ver',
                                                   array('id'=>'', 'class'=>'eliminar no_text_decoration btn btn-primary', 'flag'=>'')); ?>                        
 

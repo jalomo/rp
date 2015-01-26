@@ -19,6 +19,47 @@ class Company extends CI_Model{
     }
 	
 	/*
+	* metodo para crear un codigo de barras para un usuario.
+	* autor: jalomo <jalomo@hotmail.es>
+	*/
+	public function createNewCodigo(){
+		$patron;
+        $query="SELECT codigo FROM codigo WHERE id = 1";
+        $res= $this->db->query($query);
+        foreach ($res->result() as $row) {
+         	$patron = $row->codigo;
+               
+         }
+
+        $left= rand(100,999); 
+        $right= rand(100,999);
+        $codigo = "".$left.$patron.$right;
+        
+         $data = array('codigo'=>$patron+1);
+         $this->db->where('id',1);
+         $res =  $this->db->update('codigo',$data);
+
+
+        return $codigo;
+	}
+
+	
+	/*
+	* metodo para obtener el nombre de las ciudades.
+	* autor: jalom <jalomo@hotmail.es>
+	*/
+	public function get_name_ciudad($id_ciudad){
+		$this->db->where('ciudadId',$id_ciudad);
+		$query=$this->db->get('ciudades');
+		if($query->num_rows()>0){
+			$res=$query->row();
+			return $res->ciudadNombre;
+		}else{
+			return 'sin nombre';
+		}	
+	}
+		
+	/*
 	* metodo para obtener el precio de un evento segun su ciodad y 
 	* el sexo del usuario.
 	* sexo 1= hombre, sexo 0= mujer

@@ -488,6 +488,8 @@ public function get_estados_cliente($idpais){
     * autor: jalomo <jalomo@hotmail.es>
     */
     public function evento_status($id_usuario,$id_evento){
+		if($this->session->userdata('id'))
+        {   
         $data['usuario']=$this->Company->get_usuario_id($id_usuario);  
         $data['evento']=$this->Company->eventosusuarios_id($id_evento); 
         $data['modificadores']=$this->Company->get_moduser($id_evento);
@@ -496,6 +498,11 @@ public function get_estados_cliente($idpais){
         $this->load->view('main/template', array('aside'=>$aside,
                                                        'content'=>$content,
                                                        'included_js'=>array('statics/js/libraries/form.js')));
+													   
+		}
+        else{
+            redirect('companies');
+        }											   
     }
 	
     /*
@@ -503,7 +510,8 @@ public function get_estados_cliente($idpais){
     * autor: jalomo <jalomo@hotmail.es>
     */
     public function save_estatus($id){
-
+		if($this->session->userdata('id'))
+        {  
          if(isset($_FILES['imagen']['name'])){
                 $post = $this->input->post('save');
                 
@@ -519,6 +527,10 @@ public function get_estados_cliente($idpais){
 				$post = $this->input->post('save');
 				$id =  $this->Company->edita_eventosusuarios($id,$post);
 			}
+		}
+        else{
+            redirect('companies');
+        }	
     }
 	
 	/*
@@ -526,7 +538,8 @@ public function get_estados_cliente($idpais){
 	* autor: jalomo <jalomo@hotmail.es>
 	*/
 	public function vender($id_usuario){
-		
+		if($this->session->userdata('id'))
+        { 
 		if($this->input->post('eventoId')):
 			$idEvento=$this->input->post('eventoId');
 			$data['sexo']=$this->input->post('sexo');
@@ -554,7 +567,11 @@ public function get_estados_cliente($idpais){
 			$this->load->view('main/template', array('aside'=>$aside,
 														   'content'=>$content,
 														   'included_js'=>array('statics/js/libraries/form.js')));
-	   endif;											   
+	   endif;
+	   }
+        else{
+            redirect('companies');
+        }											   
 	}
 	
 	/*
@@ -576,7 +593,7 @@ public function get_estados_cliente($idpais){
 			$i=0;
 			foreach($resultado as $modificador):
 				if($modificador->modificadorTipo==1){//CHECKBOX
-					echo '<input type="checkbox" name="modificador[]" value="'.$modificador->modificadorNombre.'---'.$modificador->modificadorPrecio.'"/>'.$modificador->modificadorNombre.'  $'.$modificador->modificadorPrecio;
+					echo '<input type="checkbox" name="modificador[]" value="'.$modificador->modificadorNombre.'---'.$modificador->modificadorPrecio.'---'.$modificador->modificadorId.'"/>'.$modificador->modificadorNombre.'  $'.$modificador->modificadorPrecio;
 					
 					echo '<br/>';
 					echo '<br/>';
@@ -589,7 +606,7 @@ public function get_estados_cliente($idpais){
 					echo '<select name="modificador[]">';
 							echo '<option value="0">ninguno</option>';
 							for($ix=0;$ix<$top;$ix++):
-								echo '<option value="'.$res[$ix].'---'.$resP[$ix].'">'.$res[$ix].' $'.$resP[$ix].'</option>';
+								echo '<option value="'.$res[$ix].'---'.$resP[$ix].'---'.$modificador->modificadorId.'">'.$res[$ix].' $'.$resP[$ix].'</option>';
 							endfor;
 					echo '</select>';
 					echo '<br/>';
@@ -604,6 +621,50 @@ public function get_estados_cliente($idpais){
 	* metodo para guardar un usuario.
     * autor: jalom <jalomo@hotmail.es>
 	*/
+	public function vender_guardar(){
+		if($this->session->userdata('id'))
+        {
+		$id_evento=$this->input->post('id_evento');
+		$id_usuario=$this->input->post('id_usuario');
+		$id_vendedor=$this->session->userdata('id');
+		$precio_evento=$this->input->post('precio_e');
+		$id_ciudad=$this->input->post('id_ciudad');
+			
+		$modificadores = $this->input->post('modificador');	
+		
+		$data['euIdUsuario']=$id_usuario;
+		$data['euIdEvento']=$id_evento;
+		$data['euIdVendedor']=$id_vendedor;
+		$data['euTipoPago']=1;
+		$data['euStatus']=3;
+		$data['euUrlImage']='pendiente';
+		$data['euPrecio']=$precio_evento;
+		$data['euIdCiudad']=$id_ciudad;
+		$data['codigoBarras']=$this->Company->createNewCodigo();
+		$data['comentario']='';
+		$id_eventosusuarios=$this->Company->save_register('eventosusuarios', $data);
+		
+		$sux=count($modificadores);
+		if($this->input->post('modificador')):
+			foreach($modificadores as $modificador):
+				$res=explode('---',$modificador);
+				$moduser['modModificadorId']=$res[2];
+				$moduser['modEventoId']=$id_evento;
+				$moduser['modUserId']=$id_usuario;
+				$moduser['modStatus']=3;
+				$moduser['modNombre']=$res[0];
+				$moduser['modPrecio']=$res[1];
+				$moduser['rowEventosUsuarios']=$id_eventosusuarios;
+				$this->Company->save_register('moduser', $moduser);
+				print_r($moduser);
+			endforeach;
+		endif;
+		}
+        else{
+            redirect('companies');
+        }
+		
+	}
 		
 	/**
      * Method used for close the session once logout
