@@ -34,18 +34,21 @@ $(document).ready(function(){
                     <div class="col-lg-8">
                     <?php if(isset($id_evento)):?>
                     	 <?php if($id_evento==0):?>
+
                              <select class="form-control" name="evento">
                               <option value="0">Todos</option>
                               <?php if($eventos!=0):?>
-								  <?php foreach($eventos as $evento):?>
+								                  <?php foreach($eventos as $evento):?>
                                     <option value="<?php echo $evento->eventoId?>"><?php echo $evento->eventoNombre;?></option>
                                   <?php endforeach;?>
                               <?php endif;?>
                             </select>
+
                         <?php else:?>
+
                         	<select class="form-control" name="evento">
                               <?php if($eventos!=0):?>
-								  <?php foreach($eventos as $evento):?>
+								                   <?php foreach($eventos as $evento):?>
                                     <?php if($id_evento==$evento->eventoId):?>
                                         <option value="<?php echo $evento->eventoId?>" selected="selected"><?php echo $evento->eventoNombre;?></option>
                                     <?php else:?>
@@ -55,16 +58,19 @@ $(document).ready(function(){
                               <?php endif;?>
                               <option value="0">Todos</option>
                             </select>
+
                         <?php endif;?>
                     <?php else:?>
+
                          <select class="form-control" name="evento">
                           <option value="0">Todos</option>
                           <?php if($eventos!=0):?>
-							  <?php foreach($eventos as $evento):?>
+							                <?php foreach($eventos as $evento):?>
                                 <option value="<?php echo $evento->eventoId?>"><?php echo $evento->eventoNombre;?></option>
                               <?php endforeach;?>
                           <?php endif;?>
                         </select>
+
                     <?php endif;?>
                     </div>
                     <div class="col-lg-2">
@@ -90,35 +96,46 @@ $(document).ready(function(){
                     <?php if($usuarios!=0):?>
                     <?php foreach($usuarios as $usuario):?>
                     <tr>
-                      <td>
+
+                       <td>
                         <?php echo $this->Company->name_user($usuario->euIdUsuario);?>
                        </td>
-                      <td>
+
+                       <td>
                         <?php echo $this->Company->get_email_user($usuario->euIdUsuario);?>
-                      </td>
-                      <td>
+                       </td>
+
+                       <td>
                        
                          <?php if($usuario->euStatus==1):?>
                           <span class="text-success">CONFIRMADO</span>
-                        <?php endif;?>
+                         <?php endif;?>
 
-                        <?php if($usuario->euStatus==3):?>
+                         <?php if($usuario->euStatus==3):?>
                           <span class="text-danger ">RESERVADO</span>
-                        <?php endif;?>
+                         <?php endif;?>
 
                         <?php if($usuario->euStatus==4):?>
                           <span class="text-warning">PAGADO</span>
                         <?php endif;?>
+
                       </td>
+
                       <td>
 
                           <?php /*echo anchor('companies/deleteNotifications/'.$usuario->categoriaId,
                                                  'delete',
                                                   array('id'=>'delete'.$categoria->categoriaId, 'class'=>'eliminar no_text_decoration btn btn-danger', 'flag'=>$categoria->categoriaId));*/ ?>
-
-                          <?php echo anchor('companies/ver_usuario/'.$usuario->euIdUsuario,
+                          <?php if(isset($id_evento)):?>
+                            <?php echo anchor('companies/evento_status/'.$usuario->euIdUsuario.'/'.$usuario->euId,
                                                  'ver',
-                                                  array('id'=>'', 'class'=>'eliminar no_text_decoration btn btn-primary', 'flag'=>'')); ?>                        
+                                                  array('id'=>'', 'class'=>'eliminar no_text_decoration btn btn-primary', 'flag'=>'')); ?> 
+
+                          <?php else:?>
+                           <?php echo anchor('companies/usuario_ventas/'.$usuario->euIdUsuario,
+                                                 'ver',
+                                                  array('id'=>'', 'class'=>'eliminar no_text_decoration btn btn-primary', 'flag'=>'')); ?> 
+                          <?php endif;?>                                                
 
                         
                     </tr>
