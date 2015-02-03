@@ -109,6 +109,18 @@
            <?php endif;?>
            <br/>
            <br/>
+           <?php if($evento->euStatus==1):?>
+           
+           <?php $id_usuario=$usuario->usuarioId;?>
+           <?php $id_eventosusuarios=$evento->euId;?>
+           <?php $id_evento=$evento->euIdEvento;?>
+           <?php $codigo_barras=$evento->codigoBarras;?>
+           <a  class="no_text_decoration btn btn-primary" href="http://localhost/sistema//index.php/companies/printBoletoUser/<?php echo $id_usuario.'/'.$id_eventosusuarios.'/'.$id_evento.'/'.$codigo_barras;?>">ver boleto</a>
+           
+           <?php endif;?>
+           
+           <br/>
+           <br/>
            <hr/>
            <h2><small>Comentarios:</small></h2>
            

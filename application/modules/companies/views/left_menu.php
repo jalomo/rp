@@ -102,7 +102,7 @@
             </div>
         </div-->
 		
-		 <div id="albums">
+		 <!--div id="albums">
             <div class="barra_lateral">
                 <span class="padding_left_one">
                     <?php echo anchor('#',
@@ -121,7 +121,7 @@
                 
                
             </div>
-        </div>
+        </div-->
         
        
         

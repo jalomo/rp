@@ -132,7 +132,7 @@ $(document).ready(function(){
                                                   array('id'=>'', 'class'=>'eliminar no_text_decoration btn btn-primary', 'flag'=>'')); ?> 
 
                           <?php else:?>
-                           <?php echo anchor('companies/usuario_ventas/'.$usuario->euIdUsuario,
+                            <?php echo anchor('companies/evento_status/'.$usuario->euIdUsuario.'/'.$usuario->euId,
                                                  'ver',
                                                   array('id'=>'', 'class'=>'eliminar no_text_decoration btn btn-primary', 'flag'=>'')); ?> 
                           <?php endif;?>                                                
